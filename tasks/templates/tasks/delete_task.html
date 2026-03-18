@@ -1,3 +1,7 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}All Tasks{% endblock %}
+{% block content %}
 <h2>Delete Task</h2>
 
 <p>Are you sure you want to delete "<strong>{{ task.title }}</strong>"?</p>
@@ -8,3 +12,4 @@
 </form>
 
 <a href="{% url 'task_list' %}">Cancel</a>
+{% endblock %}

@@ -1,3 +1,7 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}All Tasks{% endblock %}
+{% block content %}
 <h2>Edit Task</h2>
 
 <form method="post">
@@ -7,3 +11,4 @@
 </form>
 
 <a href="{% url 'task_list' %}">Back to list</a>
+{% endblock %}

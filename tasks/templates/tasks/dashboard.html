@@ -1,11 +1,12 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}All Tasks{% endblock %}
+{% block content %}
+
 <h1>Welcome, {{ request.user.username }}</h1>
 
-<p>
-    <a href="{% url 'task_list' %}">See all Tasks</a> |
-    <a href="{% url 'logout' %}">Log Out</a>
-</p>
 
-<h2>Your Tasks by Deadline</h2>
+<h2>Your Tasks</h2>
 <table border="1" cellpadding="8" cellspacing="0">
     <thead>
         <tr>
@@ -22,10 +23,7 @@
         <tr>
             <td>{{ task.title }}</td>
             <td>{{ task.description }}</td>
-            <td
-                {% if task.is_overdue %}
-                    style="background-color: #ffcccc;"  <!-- light red -->
-                {% endif %}
+            <td {% if task.is_overdue %}style="background-color: #ffcccc;"{% endif %}>
                 {{ task.due_date }}
             </td>
             <td>{{ task.status }}</td>
@@ -39,3 +37,4 @@
     </tbody>
 </table>
 <a href="{% url 'create_task' %}">Create New Task</a>
+{% endblock %}

@@ -9,7 +9,10 @@ from datetime import date
 
 @login_required
 def task_list(request):
-    tasks = Task.objects.all()
+    tasks = Task.objects.all().order_by('due_date')
+    today = date.today()
+    for task in tasks:
+        task.is_overdue = task.due_date and task.due_date < today and task.status != "Completed"
     return render(request, 'tasks/task_list.html', {'tasks': tasks})
 
 @login_required
@@ -57,6 +60,5 @@ def dashboard(request):
     tasks = Task.objects.filter(owner=request.user).order_by('due_date')
     today = date.today()
     for task in tasks:
-        # Add a flag dynamically
         task.is_overdue = task.due_date and task.due_date < today and task.status != "Completed"
     return render(request, "tasks/dashboard.html", {"tasks": tasks})

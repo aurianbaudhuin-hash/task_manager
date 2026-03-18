@@ -1,3 +1,7 @@
+{% extends 'tasks/base.html' %}
+
+{% block title %}All Tasks{% endblock %}
+{% block content %}
 <h1>Task List</h1>
 
 <a href="{% url 'create_task' %}">Create New Task</a>
@@ -22,7 +26,9 @@
             <td>{{ task.description }}</td>
             <td>{{ task.owner.username }}</td>
             <td>{{ task.get_status_display }}</td>
-            <td>{{ task.due_date|default:"-" }}</td>
+            <td {% if task.is_overdue %}style="background-color: #ffcccc;"{% endif %}>
+                {{ task.due_date }}
+            </td>
             <td>{{ task.created_at|date:"Y-m-d H:i" }}</td>
             <td>{{ task.updated_at|date:"Y-m-d H:i" }}</td>
             <td>{{ task.comment }}</td>
@@ -39,3 +45,4 @@
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}
