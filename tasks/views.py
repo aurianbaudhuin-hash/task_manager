@@ -47,7 +47,7 @@ def edit_task(request, task_id):
 
 @login_required
 def delete_task(request, task_id):
-    task = get_object_or_404(Task, id=task_id, owner=request.user)
+    task = get_object_or_404(Task, id=task_id)
 
     if request.method == "POST":
         task.delete()
