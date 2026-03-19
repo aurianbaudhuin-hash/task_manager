@@ -1,14 +1,83 @@
 {% extends 'tasks/base.html' %}
 
-{% block title %}All Tasks{% endblock %}
+{% block title %}Task Form{% endblock %}
+
 {% block content %}
-<h1>Create Task</h1>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save</button>
-</form>
+<div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
 
-<a href="{% url 'task_list' %}">Back to list</a>
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+
+                <h3 class="mb-4 text-center">
+                    {% if form.instance.pk %}
+                        Edit Task
+                    {% else %}
+                        Create Task
+                    {% endif %}
+                </h3>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- Title -->
+                    <div class="form-floating mb-3">
+                        {{ form.title }}
+                        <label>Title</label>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-floating mb-3">
+                        {{ form.description }}
+                        <label>Description</label>
+                    </div>
+
+                    <!-- Due date -->
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">Due Date</label>
+                        {{ form.due_date }}
+                    </div>
+
+                    <!-- Owner -->
+                    <div class="mb-3">
+                        <label class="form-label">Owner</label>
+                        {{ form.owner }}
+                    </div>
+
+                    <!-- Status -->
+                    <div class="mb-3">
+                        <label class="form-label text-muted small">Status</label>
+                        {{ form.status }}
+                    </div>
+
+                    <!-- Comment -->
+                    <div class="form-floating mb-4">
+                        {{ form.comment }}
+                        <label>Comment</label>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'task_list' %}" class="btn btn-light">
+                            Cancel
+                        </a>
+
+                        <button type="submit" class="btn btn-dark px-4">
+                            {% if form.instance.pk %}
+                                Save
+                            {% else %}
+                                Create
+                            {% endif %}
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
 {% endblock %}

@@ -4,26 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Task Manager{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Your custom CSS -->
     <link rel="stylesheet" href="{% static 'tasks/css/style.css' %}">
 </head>
 <body>
-    <header>
-        <h1>Task Manager</h1>
-        <nav>
-            <a href="{% url 'dashboard' %}">Dashboard</a>
-            <a href="{% url 'task_list' %}">Tasks</a>
-            <a href="{% url 'create_task' %}">Add Task</a>
-            <a href="{% url 'logout' %}">Logout</a>
-        </nav>
-        <hr>
-    </header>
 
-    <main>
+    <!--  Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'dashboard' %}">
+                Task Manager
+            </a>
+
+            <!-- Mobile toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'task_list' %}">Tasks</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container mt-4">
         {% block content %}
         {% endblock %}
     </main>
-
-    <footer>
+    <footer class="text-center mt-5 mb-3 text-muted">
+        <hr>
+        <p>&copy; {{ now|date:"Y" }} Task Manager</p>
     </footer>
+
+    <!-- Bootstrap JS (for mobile menu) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
+
 </html>
