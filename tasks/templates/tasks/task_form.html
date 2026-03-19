@@ -1,6 +1,8 @@
 {% extends 'tasks/base.html' %}
 
-{% block title %}Task Form{% endblock %}
+{% block title %}
+    {% if form.instance.pk %}Create Task{% else %}Create Task{% endif %}
+{% endblock %}
 
 {% block content %}
 
@@ -8,67 +10,68 @@
     <div class="col-lg-5 col-md-7">
 
         <div class="card border-0 shadow-sm">
+            <div class="card-header bg-primary text-white text-center">
+                <h4 class="mb-0">{% if form.instance.pk %}Edit Task{% else %}Create Task{% endif %}</h4>
+            </div>
+
             <div class="card-body p-4">
 
-                <h3 class="mb-4 text-center">
-                    {% if form.instance.pk %}
-                        Edit Task
-                    {% else %}
-                        Create Task
-                    {% endif %}
-                </h3>
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
 
-                <form method="post">
+                <form method="post" novalidate>
                     {% csrf_token %}
 
                     <!-- Title -->
                     <div class="form-floating mb-3">
+                        {{ form.title.errors }}
                         {{ form.title }}
-                        <label>Title</label>
+                        <label for="{{ form.title.id_for_label }}">Title</label>
                     </div>
 
                     <!-- Description -->
                     <div class="form-floating mb-3">
+                        {{ form.description.errors }}
                         {{ form.description }}
-                        <label>Description</label>
+                        <label for="{{ form.description.id_for_label }}">Description</label>
                     </div>
 
-                    <!-- Due date -->
+                    <!-- Due Date -->
                     <div class="mb-3">
-                        <label class="form-label text-muted small">Due Date</label>
+                        {{ form.due_date.errors }}
+                        <label class="form-label text-muted small" for="{{ form.due_date.id_for_label }}">Due Date</label>
                         {{ form.due_date }}
                     </div>
 
                     <!-- Owner -->
                     <div class="mb-3">
-                        <label class="form-label">Owner</label>
+                        {{ form.owner.errors }}
+                        <label class="form-label" for="{{ form.owner.id_for_label }}">Owner</label>
                         {{ form.owner }}
                     </div>
 
                     <!-- Status -->
                     <div class="mb-3">
-                        <label class="form-label text-muted small">Status</label>
+                        {{ form.status.errors }}
+                        <label class="form-label text-muted small" for="{{ form.status.id_for_label }}">Status</label>
                         {{ form.status }}
                     </div>
 
                     <!-- Comment -->
                     <div class="form-floating mb-4">
+                        {{ form.comment.errors }}
                         {{ form.comment }}
-                        <label>Comment</label>
+                        <label for="{{ form.comment.id_for_label }}">Comment</label>
                     </div>
 
                     <!-- Buttons -->
                     <div class="d-flex justify-content-between">
-                        <a href="{% url 'task_list' %}" class="btn btn-light">
-                            Cancel
-                        </a>
-
-                        <button type="submit" class="btn btn-dark px-4">
-                            {% if form.instance.pk %}
-                                Save
-                            {% else %}
-                                Create
-                            {% endif %}
+                        <a href="{% url 'task_list' %}" class="btn btn-light">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            {% if form.instance.pk %}Save{% else %}Create{% endif %}
                         </button>
                     </div>
 
