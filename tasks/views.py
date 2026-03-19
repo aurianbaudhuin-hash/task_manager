@@ -11,11 +11,13 @@ def task_list(request):
     Display all tasks ordered by due date.
     Overdue tasks are marked via 'is_overdue' attribute.
     """
-    tasks = Task.objects.all().order_by('due_date')
+    tasks = Task.objects.all().order_by("due_date")
     today = date.today()
     for task in tasks:
-        task.is_overdue = task.due_date and task.due_date < today and task.status != "done"
-    return render(request, 'tasks/task_list.html', {'tasks': tasks})
+        task.is_overdue = (
+            task.due_date and task.due_date < today and task.status != "done"
+        )
+    return render(request, "tasks/task_list.html", {"tasks": tasks})
 
 
 @login_required
@@ -24,11 +26,13 @@ def dashboard(request):
     Display logged-in user's tasks ordered by due date.
     Overdue tasks are highlighted.
     """
-    tasks = Task.objects.filter(owner=request.user).order_by('due_date')
+    tasks = Task.objects.filter(owner=request.user).order_by("due_date")
     today = date.today()
     for task in tasks:
-        task.is_overdue = task.due_date and task.due_date < today and task.status != "done"
-    return render(request, 'tasks/dashboard.html', {'tasks': tasks})
+        task.is_overdue = (
+            task.due_date and task.due_date < today and task.status != "done"
+        )
+    return render(request, "tasks/dashboard.html", {"tasks": tasks})
 
 
 @login_required
@@ -40,7 +44,7 @@ def create_task(request):
     if request.method == "POST":
         form = TaskForm(request.POST)
         if form.is_valid():
-            form.save()  # owner comes from the form
+            form.save()
             return redirect("task_list")
     else:
         form = TaskForm()
@@ -59,7 +63,7 @@ def edit_task(request, task_id):
     if request.method == "POST":
         form = TaskForm(request.POST, instance=task)
         if form.is_valid():
-            form.save()  # saves changes including owner
+            form.save()
             return redirect("task_list")
     else:
         form = TaskForm(instance=task)

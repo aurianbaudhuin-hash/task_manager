@@ -35,13 +35,13 @@ class TaskManagerTestCase(TestCase):
         self.assertContains(response, "Task 1")
         self.assertContains(response, "Task 2")
         # Check overdue highlighting
-        self.assertContains(response, "bg-danger-subtle")  # bootstrap class for overdue
+        self.assertContains(response, "bg-danger-subtle") 
 
     def test_dashboard_shows_only_user_tasks(self):
         self.client.login(username="user1", password="pass1")
         response = self.client.get(reverse("dashboard"))
         self.assertContains(response, "Task 1")
-        self.assertNotContains(response, "Task 2")  # task2 belongs to user2
+        self.assertNotContains(response, "Task 2")
 
     def test_task_creation(self):
         self.client.login(username="user1", password="pass1")
@@ -52,7 +52,7 @@ class TaskManagerTestCase(TestCase):
                 "description": "A new test task",
                 "due_date": date.today(),
                 "status": "not_started",
-                "owner": self.user2.id,  # assign to user2
+                "owner": self.user2.id,
                 "comment": "Test comment",
             },
             follow=True,
@@ -70,7 +70,7 @@ class TaskManagerTestCase(TestCase):
                 "description": self.task1.description,
                 "due_date": self.task1.due_date,
                 "status": self.task1.status,
-                "owner": self.user2.id,  # change owner
+                "owner": self.user2.id,
                 "comment": self.task1.comment,
             },
             follow=True,
@@ -109,7 +109,7 @@ class TaskManagerTestCase(TestCase):
         response = self.client.post(
             reverse("create_task"),
             {
-                "title": "",  # empty
+                "title": "", 
                 "description": "No title",
                 "due_date": date.today(),
                 "status": "not_started",
@@ -123,4 +123,5 @@ class TaskManagerTestCase(TestCase):
         self.client.login(username="user1", password="pass1")
         response = self.client.get(reverse("task_list"))
         # The overdue task should appear with the correct class
-        self.assertContains(response, "bg-danger-subtle")  # matches dashboard and task_list HTML
+        self.assertContains(response, "bg-danger-subtle")
+        
